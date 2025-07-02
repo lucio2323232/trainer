@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Multiplayer Englisch Trainer</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    let hasStarted = false;
+    let playerReady = false;
+
+    function joinGame() {
+      const name = document.getElementById('nameInput').value.trim();
+      if (!name) return alert('Bitte gib deinen Namen ein.');
+      socket.emit('joinGame', name);
+      document.getElementById('startBtn').disabled = false;
+    }
+
+    function startGame() {
+      socket.emit('playerReady');
+      playerReady = true;
+      document.getElementById('startBtn').disabled = true;
+      document.getElementById('status').innerText = 'Warten auf andere Spieler...';
+    }
+
+    function submitAnswer() {
+      const answer = document.getElementById('answerInput').value;
+      socket.emit('submitAnswer', answer);
+      document.getElementById('answerInput').value = '';
+    }
+
+    socket.on('newQuestion', (question) => {
+      document.getElementById('status').innerText = '';
+      document.getElementById('questionDisplay').innerText = question;
+    });
+
+    socket.on('updateScores', (scores) => {
+      const table = document.getElementById('scoreTable');
+      table.innerHTML = '<tr><th>Spieler</th><th>Punkte</th></tr>';
+      scores.forEach(player => {
+        table.innerHTML += `<tr><td>${player.name}</td><td>${player.score}</td></tr>`;
+      });
+    });
+
+    socket.on('gameMessage', (msg) => {
+      document.getElementById('messages').innerText = msg;
+    });
+  </script>
+</head>
+<body>
+  <h1>Multiplayer Englisch Trainer</h1>
+  <div class="menu">
+    <input type="text" id="nameInput" placeholder="Dein Name" />
+    <button onclick="joinGame()">Beitreten</button>
+    <button id="startBtn" onclick="startGame()" disabled>Start drücken</button>
+  </div>
+  <div id="gameArea">
+    <h2 id="questionDisplay">Frage erscheint hier...</h2>
+    <input type="text" id="answerInput" placeholder="Deine Antwort" />
+    <button onclick="submitAnswer()">Antwort senden</button>
+    <h3>Punktestand:</h3>
+    <table id="scoreTable">
+      <tr><th>Spieler</th><th>Punkte</th></tr>
+    </table>
+    <div id="status"></div>
+  </div>
+  <div id="messages"></div>
+  <p style="margin-top:30px;color:gold;font-weight:bold;">Frau Schenk ist die beste Lehrerin 💛</p>
+</body>
+</html>

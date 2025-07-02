@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Singleplayer Englisch Trainer</title>
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    const questions = [
+      { question: "What is the English word for 'Hund'?", answer: "dog" },
+      { question: "What is the English word for 'Katze'?", answer: "cat" },
+      { question: "What is the English word for 'Apfel'?", answer: "apple" },
+      { question: "What is the English word for 'Schule'?", answer: "school" },
+      { question: "What is the English word for 'Auto'?", answer: "car" },
+      { question: "What is the English word for 'Haus'?", answer: "house" },
+      { question: "What is the English word for 'Buch'?", answer: "book" },
+      { question: "What is the English word for 'Tisch'?", answer: "table" },
+      { question: "What is the English word for 'Stuhl'?", answer: "chair" },
+      { question: "What is the English word for 'Lehrer'?", answer: "teacher" }
+    ];
+
+    let current = 0;
+    let score = 0;
+
+    function loadQuestion() {
+      if (current < questions.length) {
+        document.getElementById('question').innerText = questions[current].question;
+      } else {
+        document.getElementById('game').innerHTML = `<h2>Fertig! Dein Score: ${score}/${questions.length}</h2>`;
+      }
+    }
+
+    function checkAnswer() {
+      const userAnswer = document.getElementById('answer').value.trim().toLowerCase();
+      if (userAnswer === questions[current].answer.toLowerCase()) {
+        score++;
+        alert('Richtig!');
+      } else {
+        alert('Falsch! Richtige Antwort: ' + questions[current].answer);
+      }
+      current++;
+      document.getElementById('answer').value = '';
+      loadQuestion();
+    }
+
+    window.onload = loadQuestion;
+  </script>
+</head>
+<body>
+  <h1>Singleplayer Modus</h1>
+  <div id="game">
+    <h2 id="question"></h2>
+    <input type="text" id="answer" placeholder="Deine Antwort" />
+    <button onclick="checkAnswer()">Antwort prüfen</button>
+  </div>
+  <p style="margin-top:30px;color:gold;font-weight:bold;">Frau Schenk ist die beste Lehrerin 💛</p>
+</body>
+</html>

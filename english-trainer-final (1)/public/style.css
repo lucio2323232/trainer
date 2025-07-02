@@ -1,0 +1,32 @@
+body {
+  font-family: sans-serif;
+  background: linear-gradient(to bottom, #004aad, #ffa500);
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+button, input {
+  margin: 10px;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+}
+.menu button {
+  background: white;
+  color: #004aad;
+  font-weight: bold;
+}
+#answerInput {
+  width: 200px;
+}
+table {
+  margin: 0 auto;
+  background: rgba(255,255,255,0.1);
+  border-collapse: collapse;
+  width: 90%;
+}
+th, td {
+  padding: 10px;
+  border: 1px solid white;
+}
